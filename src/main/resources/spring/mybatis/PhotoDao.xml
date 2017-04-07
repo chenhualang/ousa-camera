@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.server.api.dao.PhotoDao">
+
+	<resultMap id="photoInfoMap" type="com.server.api.model.PhotoInfo">
+		<result column="file_name" property="fileName" jdbcType="VARCHAR"  />
+		<result column="file_Absolut_Path" property="fileAbsolutPath"  jdbcType="VARCHAR"  />
+	    <result column="deviceid" property="deviceid" jdbcType="VARCHAR"  />
+	     <result column="threshold" property="threshold" jdbcType="VARCHAR"  />
+	</resultMap>
+	
+    <insert id="insertPhotoInfo" parameterType="com.server.api.model.PhotoInfo">
+		insert into
+		t_photo_info(file_name,file_Absolut_Path,deviceid,threshold,gmt_create)
+		values(#{fileName},#{fileAbsolutPath},#{deviceid},#{threshold},now())
+	</insert>
+	
+    <select id="getPhotoList" resultMap="photoInfoMap" parameterType="Map">
+		select *
+		from t_photo_info
+		<if test="startPage != null">
+    	LIMIT #{startPage}, #{limit}
+        </if>
+	</select>
+	
+	<select id="getPhotoByDeviceId" resultMap="photoInfoMap" parameterType="java.lang.String">
+		select *
+		from t_photo_info
+		where deviceid = #{deviceid,jdbcType=CHAR}
+	</select>
+	
+	<select id="getPhotoCount" resultType="int">
+		select count(*)
+		from t_photo_info
+	</select>
+	
+  	<update id="updateThresholdValue" parameterType="com.server.api.model.PhotoInfo">
+		update t_photo_info set threshold = #{threshold,jdbcType=VARCHAR}
+		where deviceid = #{deviceid,deviceid=VARCHAR}
+	</update>
+  
+    
+   <delete id="deletePhotoById" parameterType="java.lang.String" >
+    delete from t_photo_info
+    where deviceid = #{deviceid,jdbcType=CHAR}
+  </delete>
+</mapper>

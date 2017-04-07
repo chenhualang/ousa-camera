@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	<!-- 提供方应用信息，用于计算依赖关系 -->
+    <dubbo:application name="hello-world-app"  />
+    <!-- 使用multicast广播注册中心暴露服务地址 -->
+    <dubbo:registry address="zookeeper://10.199.64.215:2181" />
+    <!-- 用hessian协议在8080(servlet容器的端口)端口暴露服务，contextpath是项目名称，server这里是使用的web.xml里面配置的servlet -->
+    <dubbo:protocol name="hessian" port="8080" contextpath="dubbo" server="servlet"/>
+    <!-- 声明需要暴露的服务接口 -->
+    <dubbo:service interface="com.server.api.service.DemoService" ref="demoService" />
+    <!-- 和本地bean一样实现服务 -->
+    <bean id="demoService" class="com.server.api.service.impl.DemoServiceImpl" />
+	
+</beans>

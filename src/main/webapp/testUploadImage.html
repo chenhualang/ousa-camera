@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="jquery-1.8.3.min.js"></script>
+	<meta charset="utf-8"> 
+	<title>Bootstrap 实例 - 基本的表格</title>
+	<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">  
+	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<form action="uploadimage/upload.htm" method="post" enctype="multipart/form-data">
+        <div>
+        请输入上传的图片对应的设备号:
+        <input type="text" name="deviceid"/> 
+         请输入上传的图片对应的识别阈值:
+        <input type="text" name="threshold"/> 
+        <input type="file" name="file_upload"/>     
+        <input type="submit" value="上传"/>
+        </div>  
+</form>
+<p></p>
+<form action="uploadimage/getPhotoByDeviceId.htm" method="post">
+        <div>
+        请输入要下载图片对应的设备号:
+        <input type="text" name="deviceid"/>
+        <input type="submit" value="下载"/>
+        </div> 
+</form>
+
+
+<script type="text/javascript">
+var cfg =   {  
+        type: 'POST',   
+        data:{deviceid:"123", nfcid:"2242",longitude:"r2523",latitude:"faljgfa"}  
+        dataType: 'json',  
+        contentType:'application/json;charset=UTF-8',         
+        success: function(result) {   
+            alert(result);   
+        }   
+    };  
+
+function writeJson() {
+	alert("test NFC");
+	var url = "http://localhost:8080/uploadapi/handlejson/write.htm";
+	var deviceid = "1415";
+	var nfcid = "14252";
+	var longitude = "23626";
+	var latitude = "43252";
+	$.post(url, {deviceid:deviceid,nfcid:nfcid,longitude:longitude,latitude:latitude}, function(data){
+		alert(data);
+	}, 'json');
+}
+
+
+
+/* function writeJson() {  
+	alert("test writejson");
+    cfg.url = "handlejson/write.htm";  
+    $.ajax(cfg);  
+}   */
+
+</script>
+</body>
+</html>

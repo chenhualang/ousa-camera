@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:jsp="http://java.sun.com/xml/ns/javaee/jsp" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>jjmng</display-name>
+  <!-- Spring刷新Interceptor防止内存泄漏 11/3/22 22:04 -->
+<!--   <listener>
+  	<listener-class>
+  	org.springframework.web.util.IntrospectorCleanupListener
+  	</listener-class>
+  </listener> -->
+  
+  <servlet>
+    <servlet-name>springMVC</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath:/spring/*.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>springMVC</servlet-name>
+    <url-pattern>*.htm</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+		<servlet-name>dubbo</servlet-name>
+		<servlet-class>com.alibaba.dubbo.remoting.http.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>dubbo</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+	
+  <session-config>
+    <session-timeout>-1</session-timeout>
+  </session-config>
+  
+    <context-param>  
+        <param-name>log4jConfigLocation</param-name>  
+        <param-value>WEB-INF/log4j.properties</param-value>  
+    </context-param>  
+      
+    <context-param>  
+        <param-name>log4jRefreshInterval</param-name>  
+        <param-value>3000</param-value>  
+    </context-param>  
+  
+    <listener>  
+        <listener-class>  
+            org.springframework.web.util.Log4jConfigListener  
+        </listener-class>  
+    </listener>  
+</web-app>

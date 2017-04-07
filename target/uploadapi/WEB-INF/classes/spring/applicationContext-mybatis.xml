@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans    
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd    
+    http://www.springframework.org/schema/tx    
+    http://www.springframework.org/schema/tx/spring-tx-3.0.xsd   
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- DataSource -->
+     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName">
+            <value>com.mysql.jdbc.Driver</value>
+        </property>
+        
+        <property name="url">
+            <value>jdbc:mysql://106.14.60.205:3306/camera</value>
+        </property>
+        
+        <property name="username">
+            <value>root</value>
+        </property>
+         
+        <property name="password">
+            <value>chen1207</value>
+        </property>
+        
+        <!-- 连接池启动时的初始值 -->
+		  <property name="initialSize" value="10" />
+		 <!--  连接池的最大值 -->
+		  <property name="maxActive" value="0" />
+		 <!--  最大空闲值.当经过一个高峰时间后，连接池可以慢慢将已经用不到的连接慢慢释放一部分，一直减少到maxIdle为止 -->
+		  <property name="maxIdle" value="20" />
+		 <!--  最小空闲值.当空闲的连接数少于阀值时，连接池就会预申请去一些连接，以免洪峰来时来不及申请 -->
+		  <property name="minIdle" value="5" />
+		  <!-- #给出一条简单的sql语句进行验证 -->
+		  <property name="validationQuery" value="select 1" />
+		 <!--  #在取出连接时进行有效验证 -->
+		  <property name="testOnBorrow" value="true" />
+		  <property name="removeAbandonedTimeout" value="180" />
+		  <property name="removeAbandoned" value="false" />
+		 <!--  #运行判断连接超时任务的时间间隔，单位为毫秒，默认为-1，即不执行任务。 -->
+		  <property name="timeBetweenEvictionRunsMillis" value="3600000" />
+		 <!--  #连接的超时时间，默认为半小时。 -->
+		  <property name="minEvictableIdleTimeMillis" value="3600000" />  
+    </bean>   
+    
+        <!-- 
+     <bean id="dataSource"  
+          class="org.apache.commons.dbcp.BasicDataSource"  
+          destroy-method="close">  
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>  
+        <property name="url" value="jdbc:mysql://10.199.101.18:3306/cts"/>  
+        <property name="username" value="cts"/>  
+        <property name="password" value="cts"/>  
+        <property name="validationQuery" value="select 1" />
+         <property name="testOnBorrow" value="true" />
+        maxActive: 最大连接数量    
+        <property name="maxActive" value="150"/>  
+        minIdle: 最小空闲连接    
+        <property name="minIdle" value="5"/>  
+        maxIdle: 最大空闲连接    
+        <property name="maxIdle" value="20"/>  
+        initialSize: 初始化连接    
+        <property name="initialSize" value="30"/>  
+        连接被泄露时是否打印  
+        <property name="logAbandoned" value="true"/>  
+        removeAbandoned: 是否自动回收超时连接    
+        <property name="removeAbandoned"  value="false"/>  
+        removeAbandonedTimeout: 超时时间(以秒数为单位)    
+        <property name="removeAbandonedTimeout" value="10"/>  
+        maxWait: 超时等待时间以毫秒为单位 1000等于60秒  
+        <property name="maxWait" value="1000"/>  
+        在空闲连接回收器线程运行期间休眠的时间值,以毫秒为单位.  
+        <property name="timeBetweenEvictionRunsMillis" value="10000"/>  
+         在每次空闲连接回收器线程(如果有)运行时检查的连接数量  
+        <property name="numTestsPerEvictionRun" value="10"/>  
+        1000 * 60 * 30  连接在池中保持空闲而不被空闲连接回收器线程  
+        <property name="minEvictableIdleTimeMillis" value="10000"/>  
+    </bean>   -->
+
+    
+       <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="typeAliasesPackage" value="com.server.api.model" />
+        <property name="configLocation" value="classpath:spring/mybatis/SqlMapConfig.xml" />
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.server.api.dao" />
+    </bean>  
+    
+</beans>   
+
